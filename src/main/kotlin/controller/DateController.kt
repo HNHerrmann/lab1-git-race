@@ -13,12 +13,11 @@ import java.time.format.DateTimeFormatter
  * The annotation `@Controller` serves as a specialization of `@Component` and it allows us to
  * implement a web controller that handles templates.
  * If no name is specified, the class name will be used by default.
- */
-@Controller
-/**
- * Swagger annotation that indicates the following class implements an API
+ *
+ * [Api] Swagger annotation that indicates the following class implements an API
  * and we can set a custom description and name for the API in the swagger interface.
  */
+@Controller
 @Api(value = "example", description = "Date Rest API used as example", tags = ["Date API (Name edited by user)"])
 class DateController {
     /**
@@ -29,29 +28,24 @@ class DateController {
      * The annotation [GetMapping] allows us to handle all the GET petitions to the path `/date`
      * using this controller.
      *
+     * [ApiOperation] Swagger annotation indicates this Mapped method is an Operation of the
+     * Api implemented in this class. In this case, we see a custom description and the type of the answer.
+     * If no name is specified, the function name will be used as the default description.
+     *
+     * [ApiResponse] Swagger annotation allows setting custom messages for the different
+     * http response codes that the operation returns.
+     *
      * @param model collection with the data used to update the view (template)
      * @return the template with the updated information
      */
     @GetMapping("/date")
-    /**
-     * This Swagger annotation indicates this Mapped method is an Operation of the
-     * Api implemented in this class. In this case, we ser a custom description and a
-     * the type of the answer.
-     * If no name is specified, the function name will be used as the default description.
-     */
     @ApiOperation(value = "Display a page with current date to user", response = String::class)
-    /**
-     * This Swagger annotation allows to set custom messages for the different
-     * http response codes that the operation returns.
-     */
     @ApiResponses(
         value = [
             ApiResponse(code = 200, message = "OK"),
             ApiResponse(code = 401, message = "You are not authorized access the resource because i don't like you"),
             ApiResponse(code = 404, message = "The page was not found")]
     )
-
-
     fun date(model: MutableMap<String, Any>): String {
         //Get the current date with format "yyyy-MM-dd"
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
